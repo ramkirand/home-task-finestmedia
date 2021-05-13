@@ -1,0 +1,28 @@
+.main-view {
+    width: 100%;
+    padding: 16px;
+    align-items: center;
+}
+
+.um-title {
+    font-weight: bold;
+}
+
+.email-input {
+    width: 100%;
+    height: 100px;
+}
+
+.valid-table {
+    width: 100%;
+    height: 150px;
+    align-content: center;
+    align-items: center;
+}
+
+.invalid-table {
+    width: 100%;
+    height: 150px;
+    align-content: center;
+    align-items: center;
+}
