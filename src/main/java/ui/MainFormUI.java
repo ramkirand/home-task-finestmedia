@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -8,6 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.SAXException;
 
+import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -108,11 +110,12 @@ public class MainFormUI extends VerticalLayout {
 
 		buttonLayout.add(inputDatePicker, inputTextField);
 
-		inputTextField.addValueChangeListener(e -> {
-			if (inputTextField.getValue() != null && !inputTextField.getValue().isEmpty()) {
-				submitbtn.setEnabled(true);
-			}
-		});
+		// inputTextField.addValueChangeListener(e -> {
+		// if (inputTextField.getValue() != null &&
+		// !inputTextField.getValue().isEmpty()) {
+		// submitbtn.setEnabled(true);
+		// }
+		// });
 
 		HorizontalLayout buttonHLayout = new HorizontalLayout();
 
@@ -152,14 +155,27 @@ public class MainFormUI extends VerticalLayout {
 		Div value = new Div();
 		value.setText(date);
 		datePicker.addValueChangeListener(event -> {
-			if (event.getValue() == null) {
-				value.setText(date + Constant.NOT_SELECTED);
-			} else {
-				submitbtn.setEnabled(true);
-			}
+			validateInputDate(date, value, event);
 		});
 
 		return datePicker;
+	}
+
+	private void validateInputDate(String date, Div value, ComponentValueChangeEvent<DatePicker, LocalDate> event) {
+		LocalDate today = LocalDate.now();
+		if (event.getValue() != null) {
+			if (inputDatePicker.getValue().toString().compareTo(today.toString()) > 0) {
+				createWarningDialogBox(inputDatePicker.getValue().toString(), true);
+				submitbtn.setEnabled(false);
+				return;
+			}
+
+		}
+		if (event.getValue() == null) {
+			value.setText(date + Constant.NOT_SELECTED);
+		} else {
+			submitbtn.setEnabled(true);
+		}
 	}
 
 	private void reset() {
@@ -179,13 +195,12 @@ public class MainFormUI extends VerticalLayout {
 
 	private void clickSubmitButton(DatePicker inputDatePicker, TextField inputTextField, Button submitbtn) {
 		submitbtn.addClickListener(e -> {
-			if (inputDatePicker.getValue() != null) {
-				submitbtn.setVisible(true);
+			if(inputDatePicker.getValue() != null && inputTextField.getValue().isEmpty()) {
+				createWarningDialogBox(inputTextField.getValue(),false);
 			}
 			if (Double.parseDouble(inputTextField.getValue()) < 0
 					|| Double.parseDouble(inputTextField.getValue()) > Constant.MAX_PRICE_VALUE) {
-				createWarningDialogBox(inputTextField.getValue());
-				inputTextField.clear();
+				validateInputPrice(inputTextField);
 				return;
 			} else {
 				addClassName(Constant.GRID_LIST_VIEW);
@@ -201,11 +216,23 @@ public class MainFormUI extends VerticalLayout {
 		});
 	}
 
-	private Dialog createWarningDialogBox(String input) {
+	private void validateInputPrice(TextField inputTextField) {
+		createWarningDialogBox(inputTextField.getValue(), false);
+		inputTextField.clear();
+		return;
+	}
+
+	private Dialog createWarningDialogBox(String input, boolean flag) {
 		Dialog dialog = new Dialog();
 		dialog.setCloseOnEsc(false);
 		dialog.setCloseOnOutsideClick(false);
-		dialog.add(Constant.INVALID_PRICE_INPUT + input);
+
+		if (flag) {
+			dialog.add(Constant.INVALID_DATE + input);
+		}
+
+		else
+			dialog.add(Constant.INVALID_PRICE_INPUT + input);
 
 		Button confirmButton = new Button("OK", event -> {
 			dialog.close();

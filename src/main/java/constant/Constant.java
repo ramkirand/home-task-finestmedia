@@ -22,7 +22,8 @@ public class Constant {
 	public static final String INPUT_DATE_PLACE_HOLDER = "Input date..";
 	public static final String GRID_LIST_VIEW = "list-view";
 	public static final String BUTTON_THEME = "primary contained";
-	public static final String INVALID_PRICE_INPUT = "Invalid Price Input ";
+	public static final String INVALID_PRICE_INPUT = "Invalid Price Input..  ";
+	public static final String INVALID_DATE = "Invalid Selected date..  ";
 	public static final double MAX_PRICE_VALUE = 5.0;
 //	
 	
