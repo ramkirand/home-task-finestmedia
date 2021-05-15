@@ -14,7 +14,7 @@ public class Constant {
 	public static final String MEASURMENT_PRICE = "MeasurmentPrice ";
 	public static final String START_DATE = "Enter start date";
 	public static final String ENTER_CONSUMTION_VALUE = "Enter KW/h price";
-	public static final String URL = "https://finestmedia.ee/kwh/?start=03-06-2021&end=03-05-2021";
+	public static final String URL = "https://finestmedia.ee/kwh/?start=03-04-2021&end=03-05-2021";
 	public static final String SERVICE_UNAVIALABLE = "service unavialable";
 	
 	public static final String FORM_MAIN_VIEW = "main-view";
