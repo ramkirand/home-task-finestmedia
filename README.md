@@ -36,3 +36,22 @@ The consumption history is presented as hourly data
 kW/h coding assignment
 
 The purpose of this assignment is to create a web form which allows to display and filter a users electricityconsumption history. It should also be possible to enter a kW/h price and use it to calculate the monetaryvalue of energy consumption.
+
+
+
+Consumption feed:
+
+The consumption feed is accessible at
+http://finestmedia.ee/kwh/?start={start}&end={end}
+
+where the parameters are:
+start, the start date from which consumption information should be returned, in format dd-mm-yyyy
+end, the end date until consumption information should be returned, in format dd-mm-yyyy
+
+Information:
+
+The consumption feed is a bit "broken" and always returns information for a longer period thanrequested
+The response format of the feed is always XML
+The consumption history can be queried up to two years in the past
+The consumption history is presented as hourly data
+
