@@ -110,13 +110,6 @@ public class MainFormUI extends VerticalLayout {
 
 		buttonLayout.add(inputDatePicker, inputTextField);
 
-		// inputTextField.addValueChangeListener(e -> {
-		// if (inputTextField.getValue() != null &&
-		// !inputTextField.getValue().isEmpty()) {
-		// submitbtn.setEnabled(true);
-		// }
-		// });
-
 		HorizontalLayout buttonHLayout = new HorizontalLayout();
 
 		reSetbtn = createButton(Constant.RESET);
