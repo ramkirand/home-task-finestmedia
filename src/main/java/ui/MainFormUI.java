@@ -184,7 +184,7 @@ public class MainFormUI extends VerticalLayout {
 		inputDatePicker.clear();
 		addClassName(Constant.GRID_LIST_VIEW);
 		grid.setItems(energyReport);
-		submitbtn.setEnabled(true);
+		submitbtn.setEnabled(false);
 
 	}
 
@@ -245,9 +245,7 @@ public class MainFormUI extends VerticalLayout {
 		if (flag) {
 			dialog.add(Constant.INVALID_DATE + input);
 
-		}
-
-		else {
+		} else {
 			dialog.add(Constant.INVALID_PRICE_INPUT + input);
 		}
 
