@@ -26,10 +26,13 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import constant.Constant;
+import exception.ApiRequestException;
+import lombok.extern.slf4j.Slf4j;
 import model.ConsumptionData;
 import service.ConsumptionService;
 import service.DataLoaderService;
 
+@Slf4j
 @Route("Main")
 @PageTitle("Main page")
 @StyleSheet("frontend://styles/styles.css")
@@ -69,12 +72,17 @@ public class MainFormUI extends VerticalLayout {
 		mainLayout.addClassName(Constant.FORM_MAIN_VIEW);
 		mainLayout.setHorizontalComponentAlignment(Alignment.START);
 		setSizeFull();
-		dataLoaderService.loadSeedData(Constant.URL);
-		energyReport = ifinestService.findAllData();
+		try {
+			if (dataLoaderService.loadSeedData(Constant.URL).equals(Constant.DATALOADED_SUCCESS)) {
+				energyReport = ifinestService.findAllData();
+				populateFormData(mainLayout, energyReport);
+				add(mainLayout);
+			}
+		} catch (ApiRequestException ex) {
+			log.info(ex.getMessage());
+			createWarningDialogBox(null, false);
+		}
 
-		populateFormData(mainLayout, energyReport);
-
-		add(mainLayout);
 	}
 
 	private void populateFormData(VerticalLayout mainLayout, List<ConsumptionData> energyReport) {
@@ -188,8 +196,8 @@ public class MainFormUI extends VerticalLayout {
 
 	private void clickSubmitButton(DatePicker inputDatePicker, TextField inputTextField, Button submitbtn) {
 		submitbtn.addClickListener(e -> {
-			if(inputDatePicker.getValue() != null && inputTextField.getValue().isEmpty()) {
-				createWarningDialogBox(inputTextField.getValue(),false);
+			if (inputDatePicker.getValue() != null && inputTextField.getValue().isEmpty()) {
+				createWarningDialogBox(inputTextField.getValue(), false);
 			}
 			if (Double.parseDouble(inputTextField.getValue()) < 0
 					|| Double.parseDouble(inputTextField.getValue()) > Constant.MAX_PRICE_VALUE) {
@@ -219,14 +227,6 @@ public class MainFormUI extends VerticalLayout {
 		Dialog dialog = new Dialog();
 		dialog.setCloseOnEsc(false);
 		dialog.setCloseOnOutsideClick(false);
-
-		if (flag) {
-			dialog.add(Constant.INVALID_DATE + input);
-		}
-
-		else
-			dialog.add(Constant.INVALID_PRICE_INPUT + input);
-
 		Button confirmButton = new Button("OK", event -> {
 			dialog.close();
 		});
@@ -237,6 +237,20 @@ public class MainFormUI extends VerticalLayout {
 		verticalLayout.add(confirmButton);
 		dialog.add(verticalLayout);
 		dialog.open();
+		if (input == null && !flag) {
+			dialog.add(Constant.SERVICE_UNAVIALABLE);
+			return dialog;
+		}
+
+		if (flag) {
+			dialog.add(Constant.INVALID_DATE + input);
+
+		}
+
+		else {
+			dialog.add(Constant.INVALID_PRICE_INPUT + input);
+		}
+
 		return dialog;
 	}
 }

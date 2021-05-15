@@ -5,7 +5,6 @@ service\ConsumptionServiceImpl.class
 ui\MainFormUI.class
 model\AccountTimeSeries.class
 model\ConsumptionHistory.class
-resource\LoginController.class
 constant\Constant.class
 model\ConsumptionData.class
 util\SaxXmlDefaultHandler.class

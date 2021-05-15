@@ -5,12 +5,15 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.xml.sax.SAXException;
 
 import annotation.TrackExecutionTime;
 import constant.Constant;
+import exception.ApiRequestException;
 import model.ConsumptionData;
 import model.EnergyReport;
 import model.HourConsumption;
@@ -20,27 +23,33 @@ import util.SaxXmlParser;
 @Component
 public class DataLoaderServiceImpl implements DataLoaderService {
 
-	private static final String DATALOADED_SUCCESS = "dataloaded success";
+	private static final String INVALID = "Invalid";
 	@Autowired
 	private RestTemplate restTemplate;
 	@Autowired
 	private EnergyReportRepository energyReportRepository;
 
-	
 	@Override
 	@TrackExecutionTime
 	public String loadSeedData(String url) throws ParserConfigurationException, SAXException, IOException {
-		String xmlString = restTemplate.getForObject(url, String.class);
+		ResponseEntity<String> respXmlString = null;
+		try {
+			respXmlString = restTemplate.getForEntity(url, String.class);
+			if (respXmlString.getBody().contains(INVALID))
+				throw new ApiRequestException(Constant.SERVICE_UNAVIALABLE);
+			EnergyReport energyReport = SaxXmlParser.parser(respXmlString.getBody());
 
-		EnergyReport energyReport = SaxXmlParser.parser(xmlString);
+			int size = energyReport.getAccountTimeSeries().getConsumptionHistory().getHourConsumption().size();
 
-		int size = energyReport.getAccountTimeSeries().getConsumptionHistory().getHourConsumption().size();
+			for (int index = 0; index < size; index++) {
+				ConsumptionData consumptionData = buildCustomerData(energyReport, index);
+				energyReportRepository.save(consumptionData);
+			}
 
-		for (int index = 0; index < size; index++) {
-			ConsumptionData consumptionData = buildCustomerData(energyReport, index);
-			energyReportRepository.save(consumptionData);
+		} catch (HttpStatusCodeException ex) {
+			throw new ApiRequestException(ex.getMessage());
 		}
-		return DATALOADED_SUCCESS;
+		return Constant.DATALOADED_SUCCESS;
 	}
 
 	public String loadSeedDataFallBack() {
