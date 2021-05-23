@@ -28,4 +28,9 @@ public class Constant {
   public static final String DATALOADED_SUCCESS = "dataloaded success";
 
   public static final String CUSTOMER_ENERGY_CONSUMPTION_DATA = "Customer energy consumption data";
+  
+  public static final String URL_START = "https://finestmedia.ee/kwh/?start=";
+  public static final String URL_END_PART = "&end=";
+  public static final int DAYS_TO_SUBTRACT = 2 * 365;
+  public static final String DATE_PATTERN = "dd-MM-YYYY";
 }

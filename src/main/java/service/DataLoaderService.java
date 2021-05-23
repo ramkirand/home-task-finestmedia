@@ -7,5 +7,5 @@ import org.xml.sax.SAXException;
 
 @Service
 public interface DataLoaderService {
-  String loadSeedData(String url) throws ParserConfigurationException, SAXException, IOException;
+  String loadSeedData() throws ParserConfigurationException, SAXException, IOException;
 }
