@@ -69,7 +69,7 @@ public class MainFormUI extends VerticalLayout {
     mainLayout.setHorizontalComponentAlignment(Alignment.START);
     setSizeFull();
     try {
-      if (dataLoaderService.loadSeedData(Constant.URL).equals(Constant.DATALOADED_SUCCESS)) {
+      if (dataLoaderService.loadSeedData().equals(Constant.DATALOADED_SUCCESS)) {
         energyReport = ifinestService.findAllData();
         populateFormData(mainLayout, energyReport);
         add(mainLayout);
