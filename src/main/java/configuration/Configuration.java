@@ -11,20 +11,20 @@ import org.springframework.web.client.RestTemplate;
 @org.springframework.context.annotation.Configuration
 public class Configuration {
 
-	@Bean
-	RestTemplate getRestTemplate() {
-		return new RestTemplate();
-	}
+  @Bean
+  RestTemplate getRestTemplate() {
+    return new RestTemplate();
+  }
 
-	@Bean
-	public CacheManager cacheManager() {
-		return new EhCacheCacheManager(cacheMangerFactory().getObject());
-	}
+  @Bean
+  public CacheManager cacheManager() {
+    return new EhCacheCacheManager(cacheMangerFactory().getObject());
+  }
 
-	@Bean
-	public EhCacheManagerFactoryBean cacheMangerFactory() {
-		EhCacheManagerFactoryBean bean = new EhCacheManagerFactoryBean();
-		bean.setShared(true);
-		return bean;
-	}
+  @Bean
+  public EhCacheManagerFactoryBean cacheMangerFactory() {
+    EhCacheManagerFactoryBean bean = new EhCacheManagerFactoryBean();
+    bean.setShared(true);
+    return bean;
+  }
 }

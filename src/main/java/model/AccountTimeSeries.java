@@ -6,9 +6,9 @@ import lombok.ToString;
 @Data
 @ToString
 public class AccountTimeSeries {
-	private String AccountingPoint;
+  private String AccountingPoint;
 
-	private ConsumptionHistory ConsumptionHistory;
+  private ConsumptionHistory consumptionHistory;
 
-	private String MeasurementUnit;
+  private String measurementUnit;
 }

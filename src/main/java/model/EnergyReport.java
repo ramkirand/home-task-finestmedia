@@ -1,7 +1,6 @@
 package model;
 
 import org.springframework.stereotype.Component;
-
 import lombok.Data;
 import lombok.ToString;
 
@@ -10,11 +9,11 @@ import lombok.ToString;
 @Component
 public class EnergyReport {
 
-	private String DocumentIdentification;
+  private String documentIdentification;
 
-	private String DocumentDateTime;
+  private String documentDateTime;
 
-	private model.AccountTimeSeries AccountTimeSeries;
-	private String price;
+  private model.AccountTimeSeries accountTimeSeries;
+  private String price;
 
 }

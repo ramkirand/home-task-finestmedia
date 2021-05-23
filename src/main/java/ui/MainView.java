@@ -1,7 +1,8 @@
 package ui;
+
 /*
-D Rama Kiron
-*/
+ * D Rama Kiron
+ */
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -10,6 +11,6 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @UIScope
 public class MainView extends VerticalLayout {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
 }

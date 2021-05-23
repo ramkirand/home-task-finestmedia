@@ -11,6 +11,6 @@ import lombok.ToString;
 @ToString
 public class HourConsumption {
 
-	private String content;
-	private String ts;
+  private String content;
+  private String ts;
 }
