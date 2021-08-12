@@ -1,3 +1,5 @@
+                                                Used Vaadin for UI along with Java 1.8
+
 kW/h coding assignment
 
 The purpose of this assignment is to create a web form which allows to display and filter a users electricityconsumption history. It should also be possible to enter a kW/h price and use it to calculate the monetaryvalue of energy consumption
